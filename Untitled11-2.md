@@ -1,0 +1,1181 @@
+
+
+```python
+# Panal Data structure, kinda analog of a three-dimentional analogue of DataFrame. 
+import numpy as np 
+import pandas as pd 
+from pandas import DataFrame as df
+import pandas_datareader.data as web
+from datetime import date
+```
+
+
+```python
+sdate = date(2016,1,3)
+edate = date.today()
+```
+
+
+```python
+pdata = pd.Panel(dict((stock, web.get_data_yahoo(stock, sdate, edate)) for stock in ["AAPL","MSFT","GOOGL"]))
+```
+
+
+```python
+pdata
+```
+
+
+
+
+    <class 'pandas.core.panel.Panel'>
+    Dimensions: 3 (items) x 338 (major_axis) x 6 (minor_axis)
+    Items axis: AAPL to MSFT
+    Major_axis axis: 2016-01-04 00:00:00 to 2017-05-05 00:00:00
+    Minor_axis axis: Open to Adj Close
+
+
+
+
+```python
+# items = open,close
+# major_axis=date
+# minor_axis=tickers
+pdata = pdata.swapaxes('items', 'minor')
+# Interchange axes and swap values axes appropriately
+pdata["Adj Close"]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL</th>
+      <th>GOOGL</th>
+      <th>MSFT</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2016-01-04</th>
+      <td>102.612183</td>
+      <td>759.440002</td>
+      <td>53.015032</td>
+    </tr>
+    <tr>
+      <th>2016-01-05</th>
+      <td>100.040792</td>
+      <td>761.530029</td>
+      <td>53.256889</td>
+    </tr>
+    <tr>
+      <th>2016-01-06</th>
+      <td>98.083025</td>
+      <td>759.330017</td>
+      <td>52.289462</td>
+    </tr>
+    <tr>
+      <th>2016-01-07</th>
+      <td>93.943473</td>
+      <td>741.000000</td>
+      <td>50.470697</td>
+    </tr>
+    <tr>
+      <th>2016-01-08</th>
+      <td>94.440222</td>
+      <td>730.909973</td>
+      <td>50.625489</td>
+    </tr>
+    <tr>
+      <th>2016-01-11</th>
+      <td>95.969420</td>
+      <td>733.070007</td>
+      <td>50.596463</td>
+    </tr>
+    <tr>
+      <th>2016-01-12</th>
+      <td>97.362258</td>
+      <td>745.340027</td>
+      <td>51.060828</td>
+    </tr>
+    <tr>
+      <th>2016-01-13</th>
+      <td>94.859047</td>
+      <td>719.570007</td>
+      <td>49.957961</td>
+    </tr>
+    <tr>
+      <th>2016-01-14</th>
+      <td>96.933690</td>
+      <td>731.390015</td>
+      <td>51.380081</td>
+    </tr>
+    <tr>
+      <th>2016-01-15</th>
+      <td>94.605802</td>
+      <td>710.489990</td>
+      <td>49.329136</td>
+    </tr>
+    <tr>
+      <th>2016-01-19</th>
+      <td>94.148022</td>
+      <td>719.080017</td>
+      <td>48.913141</td>
+    </tr>
+    <tr>
+      <th>2016-01-20</th>
+      <td>94.274641</td>
+      <td>718.559998</td>
+      <td>49.135649</td>
+    </tr>
+    <tr>
+      <th>2016-01-21</th>
+      <td>93.797377</td>
+      <td>726.669983</td>
+      <td>48.835745</td>
+    </tr>
+    <tr>
+      <th>2016-01-22</th>
+      <td>98.784315</td>
+      <td>745.460022</td>
+      <td>50.586791</td>
+    </tr>
+    <tr>
+      <th>2016-01-25</th>
+      <td>96.855775</td>
+      <td>733.619995</td>
+      <td>50.103077</td>
+    </tr>
+    <tr>
+      <th>2016-01-26</th>
+      <td>97.391477</td>
+      <td>733.789978</td>
+      <td>50.470697</td>
+    </tr>
+    <tr>
+      <th>2016-01-27</th>
+      <td>90.992218</td>
+      <td>717.580017</td>
+      <td>49.551643</td>
+    </tr>
+    <tr>
+      <th>2016-01-28</th>
+      <td>91.644804</td>
+      <td>748.299988</td>
+      <td>50.364283</td>
+    </tr>
+    <tr>
+      <th>2016-01-29</th>
+      <td>94.810344</td>
+      <td>761.349976</td>
+      <td>53.295587</td>
+    </tr>
+    <tr>
+      <th>2016-02-01</th>
+      <td>93.923996</td>
+      <td>770.770020</td>
+      <td>52.927964</td>
+    </tr>
+    <tr>
+      <th>2016-02-02</th>
+      <td>92.024676</td>
+      <td>780.909973</td>
+      <td>51.273663</td>
+    </tr>
+    <tr>
+      <th>2016-02-03</th>
+      <td>93.846074</td>
+      <td>749.380005</td>
+      <td>50.461024</td>
+    </tr>
+    <tr>
+      <th>2016-02-04</th>
+      <td>94.600127</td>
+      <td>730.030029</td>
+      <td>50.306236</td>
+    </tr>
+    <tr>
+      <th>2016-02-05</th>
+      <td>92.073538</td>
+      <td>703.760010</td>
+      <td>48.526169</td>
+    </tr>
+    <tr>
+      <th>2016-02-08</th>
+      <td>93.043048</td>
+      <td>704.159973</td>
+      <td>47.800598</td>
+    </tr>
+    <tr>
+      <th>2016-02-09</th>
+      <td>93.023458</td>
+      <td>701.020020</td>
+      <td>47.674832</td>
+    </tr>
+    <tr>
+      <th>2016-02-10</th>
+      <td>92.318363</td>
+      <td>706.849976</td>
+      <td>48.090826</td>
+    </tr>
+    <tr>
+      <th>2016-02-11</th>
+      <td>91.760163</td>
+      <td>706.359985</td>
+      <td>48.071477</td>
+    </tr>
+    <tr>
+      <th>2016-02-12</th>
+      <td>92.044160</td>
+      <td>706.890015</td>
+      <td>48.855094</td>
+    </tr>
+    <tr>
+      <th>2016-02-16</th>
+      <td>94.639300</td>
+      <td>717.640015</td>
+      <td>49.780749</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2017-03-24</th>
+      <td>140.639999</td>
+      <td>835.140015</td>
+      <td>64.980003</td>
+    </tr>
+    <tr>
+      <th>2017-03-27</th>
+      <td>140.880005</td>
+      <td>838.510010</td>
+      <td>65.099998</td>
+    </tr>
+    <tr>
+      <th>2017-03-28</th>
+      <td>143.800003</td>
+      <td>840.630005</td>
+      <td>65.290001</td>
+    </tr>
+    <tr>
+      <th>2017-03-29</th>
+      <td>144.119995</td>
+      <td>849.869995</td>
+      <td>65.470001</td>
+    </tr>
+    <tr>
+      <th>2017-03-30</th>
+      <td>143.929993</td>
+      <td>849.479980</td>
+      <td>65.709999</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>143.660004</td>
+      <td>847.799988</td>
+      <td>65.860001</td>
+    </tr>
+    <tr>
+      <th>2017-04-03</th>
+      <td>143.699997</td>
+      <td>856.750000</td>
+      <td>65.550003</td>
+    </tr>
+    <tr>
+      <th>2017-04-04</th>
+      <td>144.770004</td>
+      <td>852.570007</td>
+      <td>65.730003</td>
+    </tr>
+    <tr>
+      <th>2017-04-05</th>
+      <td>144.020004</td>
+      <td>848.909973</td>
+      <td>65.559998</td>
+    </tr>
+    <tr>
+      <th>2017-04-06</th>
+      <td>143.660004</td>
+      <td>845.099976</td>
+      <td>65.730003</td>
+    </tr>
+    <tr>
+      <th>2017-04-07</th>
+      <td>143.339996</td>
+      <td>842.099976</td>
+      <td>65.680000</td>
+    </tr>
+    <tr>
+      <th>2017-04-10</th>
+      <td>143.169998</td>
+      <td>841.700012</td>
+      <td>65.529999</td>
+    </tr>
+    <tr>
+      <th>2017-04-11</th>
+      <td>141.630005</td>
+      <td>839.880005</td>
+      <td>65.480003</td>
+    </tr>
+    <tr>
+      <th>2017-04-12</th>
+      <td>141.800003</td>
+      <td>841.460022</td>
+      <td>65.230003</td>
+    </tr>
+    <tr>
+      <th>2017-04-13</th>
+      <td>141.050003</td>
+      <td>840.179993</td>
+      <td>64.949997</td>
+    </tr>
+    <tr>
+      <th>2017-04-17</th>
+      <td>141.830002</td>
+      <td>855.130005</td>
+      <td>65.480003</td>
+    </tr>
+    <tr>
+      <th>2017-04-18</th>
+      <td>141.199997</td>
+      <td>853.989990</td>
+      <td>65.389999</td>
+    </tr>
+    <tr>
+      <th>2017-04-19</th>
+      <td>140.679993</td>
+      <td>856.510010</td>
+      <td>65.040001</td>
+    </tr>
+    <tr>
+      <th>2017-04-20</th>
+      <td>142.440002</td>
+      <td>860.080017</td>
+      <td>65.500000</td>
+    </tr>
+    <tr>
+      <th>2017-04-21</th>
+      <td>142.270004</td>
+      <td>858.950012</td>
+      <td>66.400002</td>
+    </tr>
+    <tr>
+      <th>2017-04-24</th>
+      <td>143.639999</td>
+      <td>878.929993</td>
+      <td>67.529999</td>
+    </tr>
+    <tr>
+      <th>2017-04-25</th>
+      <td>144.529999</td>
+      <td>888.840027</td>
+      <td>67.919998</td>
+    </tr>
+    <tr>
+      <th>2017-04-26</th>
+      <td>143.679993</td>
+      <td>889.140015</td>
+      <td>67.830002</td>
+    </tr>
+    <tr>
+      <th>2017-04-27</th>
+      <td>143.789993</td>
+      <td>891.440002</td>
+      <td>68.269997</td>
+    </tr>
+    <tr>
+      <th>2017-04-28</th>
+      <td>143.649994</td>
+      <td>924.520020</td>
+      <td>68.459999</td>
+    </tr>
+    <tr>
+      <th>2017-05-01</th>
+      <td>146.580002</td>
+      <td>932.820007</td>
+      <td>69.410004</td>
+    </tr>
+    <tr>
+      <th>2017-05-02</th>
+      <td>147.509995</td>
+      <td>937.090027</td>
+      <td>69.300003</td>
+    </tr>
+    <tr>
+      <th>2017-05-03</th>
+      <td>147.059998</td>
+      <td>948.450012</td>
+      <td>69.080002</td>
+    </tr>
+    <tr>
+      <th>2017-05-04</th>
+      <td>146.529999</td>
+      <td>954.719971</td>
+      <td>68.809998</td>
+    </tr>
+    <tr>
+      <th>2017-05-05</th>
+      <td>148.960007</td>
+      <td>950.280029</td>
+      <td>69.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>338 rows × 3 columns</p>
+</div>
+
+
+
+
+```python
+# ix-based label indexing generalizes to three dimensions, 
+# so we can select all data at a particular date or a range of dates
+pdata.ix[:,'1/20/2017',:]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Adj Close</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AAPL</th>
+      <td>120.449997</td>
+      <td>120.449997</td>
+      <td>119.730003</td>
+      <td>120.000000</td>
+      <td>32597900.0</td>
+      <td>119.481976</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>829.090027</td>
+      <td>829.239990</td>
+      <td>824.599976</td>
+      <td>828.169983</td>
+      <td>1277300.0</td>
+      <td>828.169983</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>62.669998</td>
+      <td>62.820000</td>
+      <td>62.369999</td>
+      <td>62.740002</td>
+      <td>30213500.0</td>
+      <td>62.361932</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+pdata.ix["Adj Close", '1/20/2017':'1/27/2017',:]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL</th>
+      <th>GOOGL</th>
+      <th>MSFT</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-20</th>
+      <td>119.481976</td>
+      <td>828.169983</td>
+      <td>62.361932</td>
+    </tr>
+    <tr>
+      <th>2017-01-23</th>
+      <td>119.561633</td>
+      <td>844.429993</td>
+      <td>62.580604</td>
+    </tr>
+    <tr>
+      <th>2017-01-24</th>
+      <td>119.452107</td>
+      <td>849.530029</td>
+      <td>63.137231</td>
+    </tr>
+    <tr>
+      <th>2017-01-25</th>
+      <td>121.353858</td>
+      <td>858.450012</td>
+      <td>63.296267</td>
+    </tr>
+    <tr>
+      <th>2017-01-26</th>
+      <td>121.413604</td>
+      <td>856.979980</td>
+      <td>63.882708</td>
+    </tr>
+    <tr>
+      <th>2017-01-27</th>
+      <td>121.423555</td>
+      <td>845.030029</td>
+      <td>65.383610</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# an alternative way to represent panel data, is in "stacked" DateFrame form
+stacked = pdata.ix[:, '1/20/2017':,:].to_frame()
+stacked
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Adj Close</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th>minor</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-20</th>
+      <th>AAPL</th>
+      <td>120.449997</td>
+      <td>120.449997</td>
+      <td>119.730003</td>
+      <td>120.000000</td>
+      <td>32597900.0</td>
+      <td>119.481976</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>829.090027</td>
+      <td>829.239990</td>
+      <td>824.599976</td>
+      <td>828.169983</td>
+      <td>1277300.0</td>
+      <td>828.169983</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>62.669998</td>
+      <td>62.820000</td>
+      <td>62.369999</td>
+      <td>62.740002</td>
+      <td>30213500.0</td>
+      <td>62.361932</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-23</th>
+      <th>AAPL</th>
+      <td>120.000000</td>
+      <td>120.809998</td>
+      <td>119.769997</td>
+      <td>120.080002</td>
+      <td>22050200.0</td>
+      <td>119.561633</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>831.609985</td>
+      <td>845.539978</td>
+      <td>828.700012</td>
+      <td>844.429993</td>
+      <td>2453600.0</td>
+      <td>844.429993</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>62.700001</td>
+      <td>63.119999</td>
+      <td>62.570000</td>
+      <td>62.959999</td>
+      <td>23097600.0</td>
+      <td>62.580604</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-24</th>
+      <th>AAPL</th>
+      <td>119.550003</td>
+      <td>120.099998</td>
+      <td>119.500000</td>
+      <td>119.970001</td>
+      <td>23211000.0</td>
+      <td>119.452107</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>846.979980</td>
+      <td>851.520020</td>
+      <td>842.280029</td>
+      <td>849.530029</td>
+      <td>1686200.0</td>
+      <td>849.530029</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>63.200001</td>
+      <td>63.740002</td>
+      <td>62.939999</td>
+      <td>63.520000</td>
+      <td>24672900.0</td>
+      <td>63.137231</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-25</th>
+      <th>AAPL</th>
+      <td>120.419998</td>
+      <td>122.099998</td>
+      <td>120.279999</td>
+      <td>121.879997</td>
+      <td>32377600.0</td>
+      <td>121.353858</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>853.549988</td>
+      <td>858.789978</td>
+      <td>849.739990</td>
+      <td>858.450012</td>
+      <td>1655400.0</td>
+      <td>858.450012</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>63.950001</td>
+      <td>64.099998</td>
+      <td>63.450001</td>
+      <td>63.680000</td>
+      <td>23672700.0</td>
+      <td>63.296267</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-26</th>
+      <th>AAPL</th>
+      <td>121.669998</td>
+      <td>122.440002</td>
+      <td>121.599998</td>
+      <td>121.940002</td>
+      <td>26337600.0</td>
+      <td>121.413604</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>859.049988</td>
+      <td>861.000000</td>
+      <td>850.520020</td>
+      <td>856.979980</td>
+      <td>3076800.0</td>
+      <td>856.979980</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>64.120003</td>
+      <td>64.540001</td>
+      <td>63.549999</td>
+      <td>64.269997</td>
+      <td>43554600.0</td>
+      <td>63.882708</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-27</th>
+      <th>AAPL</th>
+      <td>122.139999</td>
+      <td>122.349998</td>
+      <td>121.599998</td>
+      <td>121.949997</td>
+      <td>20562900.0</td>
+      <td>121.423555</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>859.000000</td>
+      <td>867.000000</td>
+      <td>841.900024</td>
+      <td>845.030029</td>
+      <td>3749600.0</td>
+      <td>845.030029</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>65.389999</td>
+      <td>65.910004</td>
+      <td>64.889999</td>
+      <td>65.779999</td>
+      <td>44818000.0</td>
+      <td>65.383610</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-30</th>
+      <th>AAPL</th>
+      <td>120.930000</td>
+      <td>121.629997</td>
+      <td>120.660004</td>
+      <td>121.629997</td>
+      <td>30377500.0</td>
+      <td>121.104937</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>837.059998</td>
+      <td>837.229980</td>
+      <td>821.030029</td>
+      <td>823.830017</td>
+      <td>3512000.0</td>
+      <td>823.830017</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>65.690002</td>
+      <td>65.790001</td>
+      <td>64.800003</td>
+      <td>65.129997</td>
+      <td>31651400.0</td>
+      <td>64.737526</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-01-31</th>
+      <th>AAPL</th>
+      <td>121.150002</td>
+      <td>121.389999</td>
+      <td>120.620003</td>
+      <td>121.349998</td>
+      <td>49201000.0</td>
+      <td>120.826147</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>819.500000</td>
+      <td>823.070007</td>
+      <td>813.400024</td>
+      <td>820.190002</td>
+      <td>2015400.0</td>
+      <td>820.190002</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>64.860001</td>
+      <td>65.150002</td>
+      <td>64.260002</td>
+      <td>64.650002</td>
+      <td>25270500.0</td>
+      <td>64.260423</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-02-01</th>
+      <th>AAPL</th>
+      <td>127.029999</td>
+      <td>130.490005</td>
+      <td>127.010002</td>
+      <td>128.750000</td>
+      <td>111985000.0</td>
+      <td>128.194203</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>824.000000</td>
+      <td>824.000000</td>
+      <td>812.250000</td>
+      <td>815.239990</td>
+      <td>2244300.0</td>
+      <td>815.239990</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>64.360001</td>
+      <td>64.620003</td>
+      <td>63.470001</td>
+      <td>63.580002</td>
+      <td>39671500.0</td>
+      <td>63.196871</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-02-02</th>
+      <th>AAPL</th>
+      <td>127.980003</td>
+      <td>129.389999</td>
+      <td>127.779999</td>
+      <td>128.529999</td>
+      <td>33710400.0</td>
+      <td>127.975152</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>815.000000</td>
+      <td>824.559998</td>
+      <td>812.049988</td>
+      <td>818.260010</td>
+      <td>1684000.0</td>
+      <td>818.260010</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>63.250000</td>
+      <td>63.410000</td>
+      <td>62.750000</td>
+      <td>63.169998</td>
+      <td>45827000.0</td>
+      <td>62.789338</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-04-24</th>
+      <th>AAPL</th>
+      <td>143.500000</td>
+      <td>143.949997</td>
+      <td>143.179993</td>
+      <td>143.639999</td>
+      <td>17099200.0</td>
+      <td>143.639999</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>868.440002</td>
+      <td>879.960022</td>
+      <td>866.109985</td>
+      <td>878.929993</td>
+      <td>1688300.0</td>
+      <td>878.929993</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>67.480003</td>
+      <td>67.660004</td>
+      <td>67.099998</td>
+      <td>67.529999</td>
+      <td>29715500.0</td>
+      <td>67.529999</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-04-25</th>
+      <th>AAPL</th>
+      <td>143.910004</td>
+      <td>144.899994</td>
+      <td>143.869995</td>
+      <td>144.529999</td>
+      <td>18290300.0</td>
+      <td>144.529999</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>882.260010</td>
+      <td>892.250000</td>
+      <td>879.280029</td>
+      <td>888.840027</td>
+      <td>2029600.0</td>
+      <td>888.840027</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>67.900002</td>
+      <td>68.040001</td>
+      <td>67.599998</td>
+      <td>67.919998</td>
+      <td>30087700.0</td>
+      <td>67.919998</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-04-26</th>
+      <th>AAPL</th>
+      <td>144.470001</td>
+      <td>144.600006</td>
+      <td>143.380005</td>
+      <td>143.679993</td>
+      <td>19769400.0</td>
+      <td>143.679993</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>891.390015</td>
+      <td>892.989990</td>
+      <td>885.150024</td>
+      <td>889.140015</td>
+      <td>1308000.0</td>
+      <td>889.140015</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>68.080002</td>
+      <td>68.309998</td>
+      <td>67.620003</td>
+      <td>67.830002</td>
+      <td>25704400.0</td>
+      <td>67.830002</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-04-27</th>
+      <th>AAPL</th>
+      <td>143.919998</td>
+      <td>144.160004</td>
+      <td>143.309998</td>
+      <td>143.789993</td>
+      <td>14106100.0</td>
+      <td>143.789993</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>890.000000</td>
+      <td>893.380005</td>
+      <td>887.179993</td>
+      <td>891.440002</td>
+      <td>2158000.0</td>
+      <td>891.440002</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>68.150002</td>
+      <td>68.379997</td>
+      <td>67.580002</td>
+      <td>68.269997</td>
+      <td>33464900.0</td>
+      <td>68.269997</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-04-28</th>
+      <th>AAPL</th>
+      <td>144.089996</td>
+      <td>144.300003</td>
+      <td>143.270004</td>
+      <td>143.649994</td>
+      <td>20763500.0</td>
+      <td>143.649994</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>929.000000</td>
+      <td>935.900024</td>
+      <td>923.219971</td>
+      <td>924.520020</td>
+      <td>3797800.0</td>
+      <td>924.520020</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>68.910004</td>
+      <td>69.139999</td>
+      <td>67.690002</td>
+      <td>68.459999</td>
+      <td>39423500.0</td>
+      <td>68.459999</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-05-01</th>
+      <th>AAPL</th>
+      <td>145.100006</td>
+      <td>147.199997</td>
+      <td>144.960007</td>
+      <td>146.580002</td>
+      <td>33424500.0</td>
+      <td>146.580002</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>924.150024</td>
+      <td>935.820007</td>
+      <td>920.799988</td>
+      <td>932.820007</td>
+      <td>2323600.0</td>
+      <td>932.820007</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>68.680000</td>
+      <td>69.550003</td>
+      <td>68.500000</td>
+      <td>69.410004</td>
+      <td>31789300.0</td>
+      <td>69.410004</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-05-02</th>
+      <th>AAPL</th>
+      <td>147.539993</td>
+      <td>148.089996</td>
+      <td>146.839996</td>
+      <td>147.509995</td>
+      <td>40290100.0</td>
+      <td>147.509995</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>933.270020</td>
+      <td>942.989990</td>
+      <td>931.000000</td>
+      <td>937.090027</td>
+      <td>1748800.0</td>
+      <td>937.090027</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>69.709999</td>
+      <td>69.709999</td>
+      <td>69.129997</td>
+      <td>69.300003</td>
+      <td>23519500.0</td>
+      <td>69.300003</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-05-03</th>
+      <th>AAPL</th>
+      <td>145.589996</td>
+      <td>147.490005</td>
+      <td>144.270004</td>
+      <td>147.059998</td>
+      <td>45404200.0</td>
+      <td>147.059998</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>936.049988</td>
+      <td>950.200012</td>
+      <td>935.210022</td>
+      <td>948.450012</td>
+      <td>1805200.0</td>
+      <td>948.450012</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>69.379997</td>
+      <td>69.379997</td>
+      <td>68.709999</td>
+      <td>69.080002</td>
+      <td>28751500.0</td>
+      <td>69.080002</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-05-04</th>
+      <th>AAPL</th>
+      <td>146.520004</td>
+      <td>147.139999</td>
+      <td>145.809998</td>
+      <td>146.529999</td>
+      <td>23309300.0</td>
+      <td>146.529999</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>950.289978</td>
+      <td>959.140015</td>
+      <td>947.369995</td>
+      <td>954.719971</td>
+      <td>1937600.0</td>
+      <td>954.719971</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>69.029999</td>
+      <td>69.080002</td>
+      <td>68.639999</td>
+      <td>68.809998</td>
+      <td>21502600.0</td>
+      <td>68.809998</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2017-05-05</th>
+      <th>AAPL</th>
+      <td>146.759995</td>
+      <td>148.979996</td>
+      <td>146.759995</td>
+      <td>148.960007</td>
+      <td>26787400.0</td>
+      <td>148.960007</td>
+    </tr>
+    <tr>
+      <th>GOOGL</th>
+      <td>956.719971</td>
+      <td>958.440002</td>
+      <td>948.099976</td>
+      <td>950.280029</td>
+      <td>1593900.0</td>
+      <td>950.280029</td>
+    </tr>
+    <tr>
+      <th>MSFT</th>
+      <td>68.900002</td>
+      <td>69.029999</td>
+      <td>68.489998</td>
+      <td>69.000000</td>
+      <td>18882800.0</td>
+      <td>69.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>222 rows × 6 columns</p>
+</div>
+
+
+
+
+```python
+
+```
